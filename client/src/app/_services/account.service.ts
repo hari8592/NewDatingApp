@@ -10,7 +10,7 @@ import { ReplaySubject } from 'rxjs';
 export class AccountService {
   baseUrl='https://localhost:44355/api/';
   //rpley subject is buffer for storage (1) means it can store one value
-  private currentUserSource=new ReplaySubject<User|null>(1);
+  private currentUserSource=new ReplaySubject<User>(1);
   currentUser$=this.currentUserSource.asObservable();
 
   constructor(private http:HttpClient) { }
