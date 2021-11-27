@@ -13,5 +13,31 @@ namespace API.Data
         {
         }
         public DbSet<AppUser> Users { get; set; }
+        public DbSet<UserLike> Likes { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            //creating PK with combination of SoruceUserId,LikeduserID
+            builder.Entity<UserLike>()
+                   .HasKey(k => new { k.SourceUserId, k.LikedUserId });
+
+            //source user can  make like many other users.OnDelete()//this,if we delete a user,we delete the related entities.
+            //For sql server set no migration if you using SQL server else you will get errors during add migration
+            //SourceUser => LikedUsers
+            builder.Entity<UserLike>()
+                   .HasOne(s => s.SourceUser)
+                   .WithMany(x => x.LikedUsers)
+                   .HasForeignKey(s => s.SourceUserId)
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            //here for LikedUser =>  LikedByUsers
+            builder.Entity<UserLike>()
+                  .HasOne(s => s.LikedUser)
+                  .WithMany(x => x.LikedByUsers)
+                  .HasForeignKey(s => s.LikedUserId)
+                  .OnDelete(DeleteBehavior.NoAction);
+
+        }
     }
 }
