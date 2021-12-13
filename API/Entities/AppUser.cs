@@ -23,10 +23,11 @@ namespace API.Entities
         public string City { get; set; }
         public string Country { get; set; }
         public ICollection<Photo> Photos { get; set; }
-
         //exactly opposite of LikedUsers
         public ICollection<UserLike> LikedByUsers { get; set; }
         //this currenlty loggged in user has liked the users - who are  the users liked by current user
         public ICollection<UserLike> LikedUsers { get; set; }
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
     }
 }
