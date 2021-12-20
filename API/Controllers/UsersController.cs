@@ -33,6 +33,7 @@ namespace API.Controllers
             _mapper = mapper;
             _photoService = photoService;
         }
+        //[Authorize(Roles="Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
@@ -46,7 +47,10 @@ namespace API.Controllers
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize,users.TotalPages, users.TotalCount);
             return Ok(users);
         }
+
+
         //api/users/3
+        //[Authorize(Roles = "Member")]
         [HttpGet("{username}",Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
